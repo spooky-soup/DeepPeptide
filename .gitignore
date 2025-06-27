@@ -1,0 +1,5 @@
+notebooks/
+data/embeddings/
+train_run/
+__pycache__/
+metrics.txt
