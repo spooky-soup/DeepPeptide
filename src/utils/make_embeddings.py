@@ -1,5 +1,5 @@
 '''
-Generate ESM-1b embeddings (per position) and save as one 
+Generate ESM-1b embeddings (per position) and save as one
 file per sequence. Use md5 hash of sequence as file name.
 Adapted from DeepTMHMM.
 '''
@@ -18,25 +18,25 @@ def generate_esm_embeddings(fasta_file, esm_embeddings_dir, repr_layers=33):
     esm_model, esm_alphabet = pretrained.load_model_and_alphabet('esm2_t33_650M_UR50D') # esm1b_t33_650M_UR50S
 
     dataset = FastaBatchedDataset.from_file(fasta_file)
-    
+
     with torch.no_grad():
         if torch.cuda.is_available():
             esm_model = esm_model.cuda()
 
         batch_converter = esm_alphabet.get_batch_converter()
-        
+
         print("Starting to generate embeddings")
 
-            
+
         for idx, item in enumerate(tqdm(dataset)):
-            
+
             label, seq = item
-            
+
             if os.path.isfile(f'{esm_embeddings_dir}/{hash_aa_string(seq)}.pt'):
                 print("Already processed sequence")
                 continue
-                                
-            
+
+
             seqs = list([("seq", s) for s in [seq]])
             labels, strs, toks = batch_converter(seqs)
 
@@ -67,7 +67,7 @@ def generate_esm_embeddings(fasta_file, esm_embeddings_dir, repr_layers=33):
             # set nan to zeros
             out[out!=out] = 0.0
 
-            res = out.transpose(0,1)[1:-1] 
+            res = out.transpose(0,1)[1:-1]
             seq_embedding = res[:,0]
             #print(seq_embedding.size())
 
@@ -93,7 +93,6 @@ def main():
     args = parser.parse_args()
 
     os.makedirs(args.output_dir, exist_ok=True)
-
 
     generate_esm_embeddings(args.fasta_file, args.output_dir, repr_layers=33)
 
