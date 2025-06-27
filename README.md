@@ -4,12 +4,26 @@ Predicting cleaved peptides in protein sequences.
 [![DOI](https://zenodo.org/badge/593202385.svg)](https://zenodo.org/badge/latestdoi/593202385)
 
 
+### Environment
+`conda create --name DeepPeptide python=3.10`
+
+`conda activate DeepPeptide`
+
+`python -m pip install -r requirements.txt`
+
+
 ### Training the model
-1. Precompute embeddings using `src/utils/make_embeddings.py`  
-2. Train the model  
+
+#### Precompute embeddings
+```bash
+python src/utils/make_embeddings.py data protein_sequences.fasta data/embeddings
 ```
-python3 run.py --embeddings_dir PATH/TO/EMBEDDINGS -df data/labeled_sequences.csv -pf data/graphpart_assignments.csv
+
+#### Train
 ```
+python3 run.py --embeddings_dir data/embeddings -df data/labeled_sequences.csv -pf data/graphpart_assignments.csv
+```
+
 Note that parameters `--lr`, `--batch_size`, `--dropout`, `--conv_dropout`, `--kernel_size`, `--num_filters`, `--hidden_size` were optimized in a nested CV hyperparameter search and not used at their defaults.
 
 ### Evaluation
