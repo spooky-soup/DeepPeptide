@@ -16,7 +16,7 @@ Predicting cleaved peptides in protein sequences.
 
 #### Precompute embeddings
 ```bash
-python src/utils/make_embeddings.py data protein_sequences.fasta data/embeddings
+python3 src/utils/make_embeddings.py data/protein_sequences.fasta data/embeddings
 ```
 
 #### Train
