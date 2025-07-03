@@ -14,9 +14,20 @@ Predicting cleaved peptides in protein sequences.
 
 ### Training the model
 
-#### Precompute embeddings
+#### Download AF2 structures
 ```bash
+python3 src/utils/download_af2_strucs.py ../data/protein_sequences.fasta ../data/structures/
+```
+
+
+#### Precompute embeddings
+##### ESM embeddings
+```bash 
 python3 src/utils/make_embeddings.py data/protein_sequences.fasta data/embeddings
+```
+##### ProSST structure embeddings
+```bash
+python3 src/utils/make_embeddings_prosst.py data/structrures
 ```
 
 #### Train
