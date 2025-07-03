@@ -22,6 +22,8 @@ import argparse
 from fairscale.nn.data_parallel import FullyShardedDataParallel as FSDP
 from fairscale.nn.wrap import enable_wrap, wrap
 
+from tqdm import tqdm
+
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 global_step = 0
 
@@ -128,7 +130,7 @@ def train(args, train_partitions: List[int] = [0,1,2], valid_partitions: List[in
 
     previous_best = -100000000000
 
-    for epoch in range(args.epochs):
+    for epoch in tqdm(range(args.epochs)):
 
         train_loss, train_probs, train_preds, train_peptides, train_labels = run_dataloader(train_loader, model, optimizer, do_train=True)
         #train_metrics = compute_crf_metrics(train_probs, train_preds, train_peptides, train_labels)
